@@ -3,125 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Build.Fast</title>
-  <link rel="stylesheet" href="/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <title>Build.Fast Test</title>
+  <script src="https://unpkg.com/@solana/web3.js@1.91.1/lib/index.iife.min.js"></script>
 </head>
-<body>
-  <nav class="top-bar">
-    <div class="logo" id="logo">Build.Fast</div>
-    <div class="nav-actions">
-      <button id="connect-wallet">Connect Wallet</button>
-      <button id="launch-now">Launch Now</button>
-      <button id="profile-btn">Profile</button>
-    </div>
-  </nav>
+<body style="background: #1A1A1A; color: #FFFFFF; font-family: Arial;">
+  <h1>Build.Fast Mint Test</h1>
+  <button id="connect-wallet" style="background: #9945FF; color: #FFF; padding: 10px 20px; border: none;">Connect Wallet</button>
+  <button id="mint-nft" style="background: #14F195; color: #000; padding: 10px 20px; border: none;">Mint NFT (0.1 SOL)</button>
+  <script>
+    const { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } = solanaWeb3;
+    let walletConnected = false;
+    let publicKey;
 
-  <div id="homepage" class="screen active">
-    <div class="hero">Launch Web3 Fast<br><span>Fund real products, no gatekeepers.</span></div>
-    <div class="trending">
-      <h2>Trending Projects</h2>
-      <div class="project-grid">
-        <div class="project-card" id="project-card">
-          <div class="image-placeholder">NFT Image</div>
-          <p>SolPunks: NFT staking game</p>
-          <div class="stats">80% Minted | 4,000 SOL</div>
-          <div class="timer">3d 12h</div>
-        </div>
-      </div>
-    </div>
-  </div>
+    const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
+    const projectKey = new PublicKey('5YTG39q61XTnsTWGcj7gAXfrcuoFjvb78yCNRE7NvNEs');
 
-  <div id="project-detail" class="screen">
-    <div class="project-header">
-      <div class="image-placeholder large">NFT Image</div>
-      <div>
-        <h1>SolPunks</h1>
-        <p class="one-liner">NFT staking game</p>
-      </div>
-    </div>
-    <div class="stats-bar">4,000 / 5,000 SOL | 80% Minted | 3d 12h</div>
-    <div class="description">A staking game with dope NFTs. Join the punk revolution!</div>
-    <div class="founder">
-      <div class="image-placeholder small">Avatar</div>
-      <span>SolPunkDev | KYC ✅</span>
-      <div class="socials">
-        <a href="https://sulpunks.com">Website</a> | 
-        <a href="https://discord.gg/abc">Discord</a> | 
-        <a href="https://twitter.com/solpunks">Twitter</a>
-      </div>
-    </div>
-    <div class="milestones">
-      <p>M1: Landing Page - 25% Unlocked</p>
-      <p>M2: Beta Live - <button id="vote-btn">Vote</button></p>
-    </div>
-    <button class="action-btn" id="mint-nft">Mint NFTs (0.1 SOL)</button>
-  </div>
+    document.getElementById('connect-wallet').addEventListener('click', async () => {
+      if (window.solana && window.solana.isPhantom) {
+        try {
+          const resp = await window.solana.connect();
+          publicKey = resp.publicKey;
+          walletConnected = true;
+          console.log('Connected:', publicKey.toString());
+          alert('Connected: ' + publicKey.toString());
+        } catch (err) {
+          console.error('Connect failed:', err);
+          alert('Failed to connect: ' + err.message);
+        }
+      } else {
+        alert('Please install Phantom Wallet!');
+      }
+    });
 
-  <div id="launch-setup" class="screen">
-    <h1>Launch Your Project</h1>
-    <form id="launch-form">
-      <input type="text" placeholder="Project Name" required>
-      <input type="text" maxlength="50" placeholder="One-Liner (50 chars)" required>
-      <textarea maxlength="200" placeholder="Description (200 words)" required></textarea>
-      <input type="number" placeholder="NFT Supply (max 10% per wallet)" required>
-      <input type="number" placeholder="Price per NFT (SOL)" required>
-      <input type="url" placeholder="Website URL (e.g., https://sulpunks.com)" required>
-      <input type="url" placeholder="Discord URL (e.g., https://discord.gg/abc)" required>
-      <input type="url" placeholder="Twitter URL (e.g., https://twitter.com/solpunks)" required>
-      <div class="image-upload">
-        <div class="image-placeholder">Drop Teaser Image</div>
-        <input type="file" accept="image/*" id="teaser-image" required>
-      </div>
-      <div class="preview">Preview: <span id="preview-text">Your card here</span></div>
-      <button type="submit" class="action-btn">Mint & Launch</button>
-    </form>
-  </div>
+    document.getElementById('mint-nft').addEventListener('click', async () => {
+      if (!walletConnected || !publicKey) {
+        alert('Please connect your wallet first!');
+        return;
+      }
 
-  <div id="voting" class="screen">
-    <h1>SolPunks M2: Beta Live</h1>
-    <p class="timer">48h Remaining</p>
-    <div class="proof">Proof: <a href="#">beta.sulpunks.com</a></div>
-    <div class="vote-buttons">
-      <button id="vote-yes">Yes</button>
-      <button id="vote-no">No</button>
-    </div>
-    <p id="vote-stats">60% Voted | 70% Yes</p>
-  </div>
+      try {
+        console.log('Minting started...');
+        const transaction = new Transaction().add(
+          SystemProgram.transfer({
+            fromPubkey: publicKey,
+            toPubkey: projectKey,
+            lamports: 0.1 * LAMPORTS_PER_SOL,
+          })
+        );
 
-  <div id="marketplace" class="screen">
-    <h1>Marketplace</h1>
-    <div class="filters">Active | Canceled | <select><option>Price</option></select></div>
-    <div class="nft-grid">
-      <div class="nft-card">
-        <div class="image-placeholder">NFT Image</div>
-        <p>SolPunks #45 - 10 SOL</p>
-        <button>Buy</button>
-      </div>
-    </div>
-    <div class="holdings">
-      <p>Your NFTs: 5 SolPunks</p>
-      <button>List</button> | <button>Burn 5 for Badge</button>
-    </div>
-  </div>
+        const { blockhash } = await connection.getLatestBlockhash();
+        transaction.recentBlockhash = blockhash;
+        transaction.feePayer = publicKey;
 
-  <div id="profile" class="screen">
-    <h1>Your Profile</h1>
-    <form id="profile-form">
-      <div class="image-upload">
-        <div class="image-placeholder">Avatar</div>
-        <input type="file" accept="image/*" id="avatar-upload">
-      </div>
-      <input type="text" placeholder="Username" required>
-      <textarea maxlength="50" placeholder="Bio (50 words)" required></textarea>
-      <input type="text" placeholder="X Handle" required>
-      <input type="text" placeholder="Discord" required>
-      <label><input type="checkbox" id="kyc-toggle"> Verify KYC</label>
-      <button type="submit" class="action-btn">Update</button>
-    </form>
-    <p>Founded: SolPunks | Backed: 3 Projects</p>
-  </div>
+        console.log('Signing transaction...');
+        const signed = await window.solana.signTransaction(transaction);
+        console.log('Sending transaction...');
+        const signature = await connection.sendRawTransaction(signed.serialize());
+        console.log('Confirming transaction...');
+        await connection.confirmTransaction(signature);
 
-  <script type="module" src="/assets/index-abc123.js"></script> <!-- Hash is placeholder -->
+        alert('Minted 0.1 SOL! Signature: ' + signature);
+        console.log('Mint success:', signature);
+      } catch (err) {
+        console.error('Mint failed:', err);
+        alert('Mint failed: ' + err.message);
+      }
+    });
+  </script>
 </body>
 </html>
