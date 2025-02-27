@@ -8,12 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <!-- Buffer polyfill -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/buffer/6.0.3/buffer.min.js"></script>
-  <!-- Explicitly set Buffer global -->
-  <script>
-    if (typeof window.Buffer === 'undefined') {
-      window.Buffer = buffer.Buffer;
-    }
-  </script>
   <!-- Solana Web3.js -->
   <script src="https://unpkg.com/@solana/web3.js@1.91.1/lib/index.iife.min.js"></script>
 </head>
