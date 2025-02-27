@@ -42,19 +42,20 @@ document.getElementById('profile-form').addEventListener('submit', (e) => {
   alert('Profile Updated! (Mock)');
 });
 
-document.querySelector('#project-detail .action-btn').addEventListener('click', async () => {
-  if (!walletConnected) {
+async function mintNFT() {
+  if (!walletConnected || !publicKey) {
     alert('Please connect your wallet first!');
     return;
   }
 
   const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
-  const programId = new PublicKey('BFST111111111111111111111111111111111111');
-  const projectKey = new PublicKey('5YTG39q61XTnsTWGcj7gAXfrcuoFjvb78yCNRE7NvNEs'); // Mock for now
-  const amount = 1; // 1 NFT
-  const price = 5 * LAMPORTS_PER_SOL; // 5 SOL
+  const programId = new PublicKey('BFST111111111111111111111111111111111111'); // Mock
+  const projectKey = new PublicKey('5YTG39q61XTnsTWGcj7gAXfrcuoFjvb78yCNRE7NvNEs'); // Your wallet
+  const amount = 1;
+  const price = 5 * LAMPORTS_PER_SOL;
 
   try {
+    console.log('Minting started...');
     const transaction = new Transaction().add(
       SystemProgram.transfer({
         fromPubkey: publicKey,
@@ -67,12 +68,25 @@ document.querySelector('#project-detail .action-btn').addEventListener('click', 
     transaction.recentBlockhash = blockhash;
     transaction.feePayer = publicKey;
 
+    console.log('Signing transaction...');
     const signed = await window.solana.signTransaction(transaction);
+    console.log('Sending transaction...');
     const signature = await connection.sendRawTransaction(signed.serialize());
     await connection.confirmTransaction(signature);
 
     alert('Minted 1 NFT! Signature: ' + signature);
   } catch (err) {
     alert('Mint failed: ' + err.message);
+    console.error(err);
+  }
+}
+
+// Wait for DOM to load, then attach listener
+document.addEventListener('DOMContentLoaded', () => {
+  const mintButton = document.querySelector('#project-detail .action-btn');
+  if (mintButton) {
+    mintButton.addEventListener('click', mintNFT);
+  } else {
+    console.error('Mint button not found!');
   }
 });
