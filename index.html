@@ -3,21 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Build.Fast Mockup</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Build.Fast</title>
+  <link rel="stylesheet" href="/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Buffer polyfill -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/buffer/6.0.3/buffer.min.js"></script>
-  <!-- Solana Web3.js -->
-  <script src="https://unpkg.com/@solana/web3.js@1.91.1/lib/index.iife.min.js"></script>
 </head>
 <body>
   <nav class="top-bar">
-    <div class="logo" onclick="showScreen('homepage')">Build.Fast</div>
+    <div class="logo" id="logo">Build.Fast</div>
     <div class="nav-actions">
       <button id="connect-wallet">Connect Wallet</button>
-      <button onclick="showScreen('launch-setup')">Launch Now</button>
-      <button onclick="showScreen('profile')">Profile</button>
+      <button id="launch-now">Launch Now</button>
+      <button id="profile-btn">Profile</button>
     </div>
   </nav>
 
@@ -26,7 +22,7 @@
     <div class="trending">
       <h2>Trending Projects</h2>
       <div class="project-grid">
-        <div class="project-card" onclick="showScreen('project-detail')">
+        <div class="project-card" id="project-card">
           <div class="image-placeholder">NFT Image</div>
           <p>SolPunks: NFT staking game</p>
           <div class="stats">80% Minted | 4,000 SOL</div>
@@ -57,9 +53,9 @@
     </div>
     <div class="milestones">
       <p>M1: Landing Page - 25% Unlocked</p>
-      <p>M2: Beta Live - <button onclick="showScreen('voting')">Vote</button></p>
+      <p>M2: Beta Live - <button id="vote-btn">Vote</button></p>
     </div>
-    <button class="action-btn">Mint NFTs (0.1 SOL)</button>
+    <button class="action-btn" id="mint-nft">Mint NFTs (0.1 SOL)</button>
   </div>
 
   <div id="launch-setup" class="screen">
@@ -126,6 +122,6 @@
     <p>Founded: SolPunks | Backed: 3 Projects</p>
   </div>
 
-  <script src="script.js"></script>
+  <script type="module" src="/assets/index-abc123.js"></script> <!-- Hash is placeholder -->
 </body>
 </html>
