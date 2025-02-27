@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://unpkg.com/@solana/web3.js@1.91.1/lib/index.iife.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Build.Fast Mockup</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Add Buffer polyfill -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/buffer/6.0.3/buffer.min.js"></script>
+  <script src="https://unpkg.com/@solana/web3.js@1.91.1/lib/index.iife.min.js"></script>
 </head>
 <body>
-  <!-- Navigation -->
+  <!-- Rest of your index.html unchanged -->
   <nav class="top-bar">
     <div class="logo" onclick="showScreen('homepage')">Build.Fast</div>
     <div class="nav-actions">
@@ -19,7 +21,6 @@
     </div>
   </nav>
 
-  <!-- Screens -->
   <div id="homepage" class="screen active">
     <div class="hero">Launch Web3 Fast<br><span>Fund real products, no gatekeepers.</span></div>
     <div class="trending">
@@ -36,30 +37,30 @@
   </div>
 
   <div id="project-detail" class="screen">
-  <div class="project-header">
-    <div class="image-placeholder large">NFT Image</div>
-    <div>
-      <h1>SolPunks</h1>
-      <p class="one-liner">NFT staking game</p>
+    <div class="project-header">
+      <div class="image-placeholder large">NFT Image</div>
+      <div>
+        <h1>SolPunks</h1>
+        <p class="one-liner">NFT staking game</p>
+      </div>
     </div>
-  </div>
-  <div class="stats-bar">4,000 / 5,000 SOL | 80% Minted | 3d 12h</div>
-  <div class="description">A staking game with dope NFTs. Join the punk revolution!</div>
-  <div class="founder">
-    <div class="image-placeholder small">Avatar</div>
-    <span>SolPunkDev | KYC ✅</span>
-    <div class="socials">
-      <a href="https://sulpunks.com">Website</a> | 
-      <a href="https://discord.gg/abc">Discord</a> | 
-      <a href="https://twitter.com/solpunks">Twitter</a>
+    <div class="stats-bar">4,000 / 5,000 SOL | 80% Minted | 3d 12h</div>
+    <div class="description">A staking game with dope NFTs. Join the punk revolution!</div>
+    <div class="founder">
+      <div class="image-placeholder small">Avatar</div>
+      <span>SolPunkDev | KYC ✅</span>
+      <div class="socials">
+        <a href="https://sulpunks.com">Website</a> | 
+        <a href="https://discord.gg/abc">Discord</a> | 
+        <a href="https://twitter.com/solpunks">Twitter</a>
+      </div>
     </div>
+    <div class="milestones">
+      <p>M1: Landing Page - 25% Unlocked</p>
+      <p>M2: Beta Live - <button onclick="showScreen('voting')">Vote</button></p>
+    </div>
+    <button class="action-btn">Mint NFTs (0.1 SOL)</button>
   </div>
-  <div class="milestones">
-    <p>M1: Landing Page - 25% Unlocked</p>
-    <p>M2: Beta Live - <button onclick="showScreen('voting')">Vote</button></p>
-  </div>
-  <button class="action-btn">Mint NFTs (5 SOL)</button>
-</div>
 
   <div id="launch-setup" class="screen">
     <h1>Launch Your Project</h1>
