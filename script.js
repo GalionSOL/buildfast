@@ -12,34 +12,17 @@ document.getElementById('connect-wallet').addEventListener('click', async () => 
   if (window.solana && window.solana.isPhantom) {
     try {
       const resp = await window.solana.connect();
-      publicKey = new PublicKey(resp.publicKey.toString());
+      publicKey = resp.publicKey; // Already a PublicKey object
       walletConnected = true;
+      console.log('Connected:', publicKey.toString());
       alert('Connected: ' + publicKey.toString());
     } catch (err) {
+      console.error('Connect failed:', err);
       alert('Failed to connect wallet: ' + err.message);
     }
   } else {
     alert('Please install Phantom Wallet!');
   }
-});
-
-document.getElementById('launch-form').addEventListener('submit', (e) => {
-  e.preventDefault();
-  alert('Minting Project... (Mock)');
-  showScreen('homepage');
-});
-
-document.getElementById('vote-yes').addEventListener('click', () => {
-  alert('Voted Yes! (Mock)');
-});
-
-document.getElementById('vote-no').addEventListener('click', () => {
-  alert('Voted No! (Mock)');
-});
-
-document.getElementById('profile-form').addEventListener('submit', (e) => {
-  e.preventDefault();
-  alert('Profile Updated! (Mock)');
 });
 
 async function mintNFT() {
@@ -49,10 +32,9 @@ async function mintNFT() {
   }
 
   const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
-  const programId = new PublicKey('BFST111111111111111111111111111111111111'); // Mock
   const projectKey = new PublicKey('5YTG39q61XTnsTWGcj7gAXfrcuoFjvb78yCNRE7NvNEs'); // Your wallet
   const amount = 1;
-  const price = 5 * LAMPORTS_PER_SOL;
+  const price = 0.1 * LAMPORTS_PER_SOL; // 0.1 SOL (1 SOL too high for devnet airdrop)
 
   try {
     console.log('Minting started...');
@@ -72,20 +54,23 @@ async function mintNFT() {
     const signed = await window.solana.signTransaction(transaction);
     console.log('Sending transaction...');
     const signature = await connection.sendRawTransaction(signed.serialize());
+    console.log('Confirming transaction...');
     await connection.confirmTransaction(signature);
 
     alert('Minted 1 NFT! Signature: ' + signature);
+    console.log('Mint success:', signature);
   } catch (err) {
+    console.error('Mint failed:', err);
     alert('Mint failed: ' + err.message);
-    console.error(err);
   }
 }
 
-// Wait for DOM to load, then attach listener
 document.addEventListener('DOMContentLoaded', () => {
   const mintButton = document.querySelector('#project-detail .action-btn');
   if (mintButton) {
+    mintButton.textContent = 'Mint NFTs (0.1 SOL)'; // Update button text
     mintButton.addEventListener('click', mintNFT);
+    console.log('Mint button initialized');
   } else {
     console.error('Mint button not found!');
   }
